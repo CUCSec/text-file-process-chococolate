@@ -1,0 +1,10 @@
+import os
+temp=0
+with open (r'text-file-process\log_files\201811123010.log',encoding='utf-8')as f:
+    for line in f:
+        student=line.split(',')[1]
+        id=student[4:]
+        if id=='201811123010':
+            temp=temp+1
+print("爱学习的王明月打卡次数是:")
+print(temp)
