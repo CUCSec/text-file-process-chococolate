@@ -7,7 +7,7 @@ def tamper(student_id):
         offset=offset+10*3
       else:
         offset=offset+i*3
-       f.seek(offset)
+       f.seek(offset-3)
        f.read(3)
        f.write(b'\x00\x00\x00')
 def detect():
