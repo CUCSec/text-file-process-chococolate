@@ -1,15 +1,22 @@
 import struct
-def tamper(student_id):
-  with open('lenna.bmp','r+') as f:
-    offset=int(54)
-    for i in student_id:
-      if(i==0):
-        offset=offset+10*3
-      else:
-        offset=offset+i*3
-       f.seek(offset-3)
-       f.read(3)
-       f.write(b'\x00\x00\x00')
+
+def offset_generator(student_id):
+
+  start=54
+  for i in student_id:
+    v=int(i)
+    if v==0:
+      v=10
+    start +=v*3
+    yield start 
+
+def tamper_step(student_id):
+  with open ('lenna.bmp','r+b')as f:
+    for i in offset_generator(student_id):
+      print(i)
+      f.seek(i)
+      f.write(b'\x00\x00\x00')
+
 def detect():
   with open('lenna.bmp', 'rb') as f:
     bmp_file_header = f.read(14)
@@ -39,8 +46,10 @@ def detect():
 
 if __name__ == '__main__':
   import sys
-  tamper(sys.argv[1])
+
+  tamper_step('201811123010')
 
 
 detect()
+
         
